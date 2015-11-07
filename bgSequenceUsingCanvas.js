@@ -1,4 +1,6 @@
 var RunBgSequence = (function() {
+    "use strict";
+
     function RunBgSequence(options) {
         this.containerId = options.containerId;
         this.imageId = options.imageId;
@@ -10,11 +12,11 @@ var RunBgSequence = (function() {
         this.repeat = options.repeat || false;
         this.vertical = options.vertical || true;
 
-        this.container;
-        this.image;
-        this.canvas;
-        this.context;
-        this.animationInterval;
+        this.container = null;
+        this.image = null;
+        this.canvas = null;
+        this.context = null;
+        this.animationInterval = null;
     }
 
     RunBgSequence.prototype.init = function() {
@@ -28,7 +30,13 @@ var RunBgSequence = (function() {
         this.canvas.width = this.container.clientWidth;
         this.canvas.height = this.container.clientHeight;
         this.contaier.appendChild(this.canvas);
-    }
+
+        this.drawImage();
+
+        window.addEventListener("resize", function(event) {
+            this.onWindowResize(event);
+        });
+    };
 
     RunBgSequence.prototype.drawImage = function() {
         var img = this.image;
@@ -41,28 +49,32 @@ var RunBgSequence = (function() {
         var dWidth = this.container.clientWidth;
         var dHeight = this.container.clientHeight;
         context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-    }
+    };
 
-    RunBgSequence.prototype.startBgSequence = function(){
-    	this.animationInterval = window.setInterval(function() {
+    RunBgSequence.prototype.startBgSequence = function() {
+        this.animationInterval = window.setInterval(function() {
             this.currentFrame++;
             if (this.currentFrame === (this.noOfFrames)) {
                 this.currentFrame = 0;
             }
             // console.log("currentFrame: " + currentFrame);
             this.drawImage();
-        }, 100);
-    }
+        }, this.intervalTime);
+    };
 
-    RunBgSequence.prototype.updateCanvasDimensions = function(){
-    	this.canvas.width = this.container.clientWidth;
+    RunBgSequence.prototype.onWindowResize = function(event) {
+        this.updateCanvasDimensions();
+    };
+
+    RunBgSequence.prototype.updateCanvasDimensions = function() {
+        this.canvas.width = this.container.clientWidth;
         this.canvas.height = this.container.clientHeight;
         this.drawImage();
-    }
+    };
 
-    RunBgSequence.prototype.stopBgSequence = function(){
-    	window.clearInterval(this.animationInterval);
-    }
+    RunBgSequence.prototype.stopBgSequence = function() {
+        window.clearInterval(this.animationInterval);
+    };
 
     return RunBgSequence;
 })();
@@ -77,4 +89,4 @@ var options = {
     "intervalTime": 100,
     "repeat": true,
     "vertical": true,
-}
+};
