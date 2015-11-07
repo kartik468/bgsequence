@@ -13,7 +13,7 @@ var RunBgSequence = (function() {
         this.vertical = options.vertical || true;
 
         this.container = null;
-        this.image = null;
+        this.spriteImage = null;
         this.canvas = null;
         this.context = null;
         this.animationInterval = null;
@@ -22,7 +22,7 @@ var RunBgSequence = (function() {
     RunBgSequence.prototype.init = function() {
         this.container = document.getElementById(this.containerId);
 
-        this.image = document.getElementById(this.imageId);
+        this.spriteImage = document.getElementById(this.imageId);
 
         this.canvas = document.createElement("canvas");
         this.context = this.canvas.getContext("2d");
@@ -38,9 +38,9 @@ var RunBgSequence = (function() {
         });
     };
 
-    RunBgSequence.prototype.drawImage = function() {
-        var img = this.image;
-        var sx = 0;
+    RunBgSequence.prototype.drawImage = function() {        
+        var img = this.spriteImage;
+        var sx = 0;        
         var sy = this.currentFrame * this.frameHeight;
         var sWidth = this.frameWidth;
         var sHeight = this.frameHeight;
@@ -55,9 +55,12 @@ var RunBgSequence = (function() {
         var self = this;
         this.animationInterval = window.setInterval(function() {
             self.currentFrame++;
-            if (self.repeat) {
-                if (self.currentFrame === (self.noOfFrames)) {
+            if (self.currentFrame === (self.noOfFrames)) {
+                if (self.repeat) {
                     self.currentFrame = 0;
+                } else {
+                    self.currentFrame--;
+                    self.stopBgSequence();
                 }
             }
             // console.log("currentFrame: " + currentFrame);

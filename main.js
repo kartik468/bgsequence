@@ -66,10 +66,5 @@ document.addEventListener("readystatechange", function(event) {
         containerThreeSequence.init();
         containerThreeSequence.startBgSequence();
 
-
-
-
-
-
     }
 });
