@@ -38,9 +38,9 @@ var RunBgSequence = (function() {
         });
     };
 
-    RunBgSequence.prototype.drawImage = function() {        
+    RunBgSequence.prototype.drawImage = function() {
         var img = this.spriteImage;
-        var sx = 0;        
+        var sx = 0;
         var sy = this.currentFrame * this.frameHeight;
         var sWidth = this.frameWidth;
         var sHeight = this.frameHeight;
@@ -64,6 +64,7 @@ var RunBgSequence = (function() {
                 }
             }
             // console.log("currentFrame: " + currentFrame);
+            self.clearCanvas();
             self.drawImage();
         }, this.intervalTime);
     };
@@ -78,8 +79,16 @@ var RunBgSequence = (function() {
         this.drawImage();
     };
 
+    RunBgSequence.prototype.clearCanvas = function(){
+        this.canvas.width = this.container.clientWidth;
+    }
+
     RunBgSequence.prototype.stopBgSequence = function() {
         window.clearInterval(this.animationInterval);
+    };
+
+    RunBgSequence.prototype.removeCanvas = function() {
+        this.container.removeChild(this.canvas);
     };
 
     return RunBgSequence;
