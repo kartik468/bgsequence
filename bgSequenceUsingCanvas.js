@@ -26,15 +26,15 @@ var RunBgSequence = (function() {
 
         this.canvas = document.createElement("canvas");
         this.context = this.canvas.getContext("2d");
-        this.canvas.setAttribute(this.containerId + "-canvas");
+        this.canvas.setAttribute("id", this.containerId + "-canvas");
         this.canvas.width = this.container.clientWidth;
         this.canvas.height = this.container.clientHeight;
-        this.contaier.appendChild(this.canvas);
+        this.container.appendChild(this.canvas);
 
         this.drawImage();
-
+        var self = this;
         window.addEventListener("resize", function(event) {
-            this.onWindowResize(event);
+            self.onWindowResize(event);
         });
     };
 
@@ -48,17 +48,20 @@ var RunBgSequence = (function() {
         var dy = 0;
         var dWidth = this.container.clientWidth;
         var dHeight = this.container.clientHeight;
-        context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        this.context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     };
 
     RunBgSequence.prototype.startBgSequence = function() {
+        var self = this;
         this.animationInterval = window.setInterval(function() {
-            this.currentFrame++;
-            if (this.currentFrame === (this.noOfFrames)) {
-                this.currentFrame = 0;
+            self.currentFrame++;
+            if (self.repeat) {
+                if (self.currentFrame === (self.noOfFrames)) {
+                    self.currentFrame = 0;
+                }
             }
             // console.log("currentFrame: " + currentFrame);
-            this.drawImage();
+            self.drawImage();
         }, this.intervalTime);
     };
 
@@ -78,15 +81,3 @@ var RunBgSequence = (function() {
 
     return RunBgSequence;
 })();
-
-var options = {
-    "containerId": "main",
-    "imageId": "sprite",
-    "frameHeight": 82,
-    "frameWidth": 161,
-    "currentFrame": 0,
-    "noOfFrames": 12,
-    "intervalTime": 100,
-    "repeat": true,
-    "vertical": true,
-};
