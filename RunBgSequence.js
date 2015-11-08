@@ -39,7 +39,7 @@ var RunBgSequence = (function() {
     };
 
     RunBgSequence.prototype.drawImage = function(currentFrame) {
-        console.log(currentFrame);
+        // console.log(currentFrame);
         var img = this.spriteImage;
         var sx = 0;
         var sy = currentFrame * this.frameHeight;
