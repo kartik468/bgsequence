@@ -78,6 +78,7 @@ var RunBgSequence = (function() {
         }
         frameNumber--;
         this.clearCanvas();
+        this.currentFrame = frameNumber;
         this.drawImage(frameNumber);
     }
 
@@ -88,7 +89,7 @@ var RunBgSequence = (function() {
     RunBgSequence.prototype.updateCanvasDimensions = function() {
         this.canvas.width = this.container.clientWidth;
         this.canvas.height = this.container.clientHeight;
-        this.drawImage();
+        this.drawImage(this.currentFrame);
     };
 
     RunBgSequence.prototype.clearCanvas = function() {
