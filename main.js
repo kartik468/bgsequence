@@ -6,7 +6,7 @@ var options = {
     "currentFrame": 0,
     "noOfFrames": 46,
     "intervalTime": 100,
-    "repeat": true,
+    "repeat": false,
     "vertical": true,
 };
 

@@ -31,17 +31,18 @@ var RunBgSequence = (function() {
         this.canvas.height = this.container.clientHeight;
         this.container.appendChild(this.canvas);
 
-        this.drawImage();
+        this.drawImage(this.currentFrame);
         var self = this;
         window.addEventListener("resize", function(event) {
             self.onWindowResize(event);
         });
     };
 
-    RunBgSequence.prototype.drawImage = function() {
+    RunBgSequence.prototype.drawImage = function(currentFrame) {
+        console.log(currentFrame);
         var img = this.spriteImage;
         var sx = 0;
-        var sy = this.currentFrame * this.frameHeight;
+        var sy = currentFrame * this.frameHeight;
         var sWidth = this.frameWidth;
         var sHeight = this.frameHeight;
         var dx = 0;
@@ -61,13 +62,24 @@ var RunBgSequence = (function() {
                 } else {
                     self.currentFrame--;
                     self.stopBgSequence();
+                    return;
                 }
             }
             // console.log("currentFrame: " + currentFrame);
             self.clearCanvas();
-            self.drawImage();
+            self.drawImage(self.currentFrame);
         }, this.intervalTime);
     };
+
+    RunBgSequence.prototype.goToFrame = function(frameNumber) {
+        if (frameNumber < 1 || frameNumber > this.noOfFrames) {
+            console.warn("Invalid frameNumber");
+            return;
+        }
+        frameNumber--;
+        this.clearCanvas();
+        this.drawImage(frameNumber);
+    }
 
     RunBgSequence.prototype.onWindowResize = function(event) {
         this.updateCanvasDimensions();
@@ -79,7 +91,7 @@ var RunBgSequence = (function() {
         this.drawImage();
     };
 
-    RunBgSequence.prototype.clearCanvas = function(){
+    RunBgSequence.prototype.clearCanvas = function() {
         this.canvas.width = this.container.clientWidth;
     }
 
