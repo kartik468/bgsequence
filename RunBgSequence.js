@@ -11,11 +11,12 @@ var RunBgSequence = (function() {
         this.intervalTime = options.intervalTime || 100;
         this.repeat = options.repeat || false;
         this.vertical = options.vertical || true;
-
+        this.fOnComplete = options.fOnComplete;
+        this.context = options.context;
         this.container = null;
         this.spriteImage = null;
         this.canvas = null;
-        this.context = null;
+        this.canvasContext = null;
         this.animationInterval = null;
     }
 
@@ -25,7 +26,7 @@ var RunBgSequence = (function() {
         this.spriteImage = document.getElementById(this.imageId);
 
         this.canvas = document.createElement("canvas");
-        this.context = this.canvas.getContext("2d");
+        this.canvasContext = this.canvas.getContext("2d");
         this.canvas.setAttribute("id", this.containerId + "-canvas");
         this.canvas.width = this.container.clientWidth;
         this.canvas.height = this.container.clientHeight;
@@ -49,7 +50,7 @@ var RunBgSequence = (function() {
         var dy = 0;
         var dWidth = this.container.clientWidth;
         var dHeight = this.container.clientHeight;
-        this.context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        this.canvasContext.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     };
 
     RunBgSequence.prototype.startBgSequence = function() {
@@ -62,6 +63,8 @@ var RunBgSequence = (function() {
                 } else {
                     self.currentFrame--;
                     self.stopBgSequence();
+                    self.fOnComplete.call(self.context);
+                    self.removeCanvas();
                     return;
                 }
             }
