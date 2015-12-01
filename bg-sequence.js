@@ -41,15 +41,15 @@ var RunBgSequence = (function() {
 
     RunBgSequence.prototype.drawImage = function(currentFrame) {
         // console.log(currentFrame);
-        var img = this.spriteImage;
-        var sx = 0;
-        var sy = currentFrame * this.frameHeight;
-        var sWidth = this.frameWidth;
-        var sHeight = this.frameHeight;
-        var dx = 0;
-        var dy = 0;
-        var dWidth = this.container.clientWidth;
-        var dHeight = this.container.clientHeight;
+        var img = this.spriteImage,
+            sx = 0,
+            sy = currentFrame * this.frameHeight,
+            sWidth = this.frameWidth,
+            sHeight = this.frameHeight,
+            dx = 0,
+            dy = 0,
+            dWidth = this.container.clientWidth,
+            dHeight = this.container.clientHeight;
         this.canvasContext.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     };
 
@@ -57,7 +57,7 @@ var RunBgSequence = (function() {
         var self = this;
         this.animationInterval = window.setInterval(function() {
             self.currentFrame++;
-            if (self.currentFrame === (self.noOfFrames)) {
+            if (self.currentFrame === self.noOfFrames) {
                 if (self.repeat) {
                     self.currentFrame = 0;
                 } else {
