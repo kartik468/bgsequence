@@ -1,5 +1,3 @@
 # bgsequenceUsingCanvas
-bgsequence Canvas Responsive
-
-for example refer
-main.js and main.html
+Refer main.html and main.js for example.
+It needs a container in which sprite bg sequence is to be performed.
